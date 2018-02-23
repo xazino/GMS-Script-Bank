@@ -1,0 +1,35 @@
+[ENABLE]
+//Created by DBLmao
+alloc(Hook,100)
+label(Return)
+label(Original)
+
+Hook:
+push eax
+mov eax,[02FF0BC0] //8B 0D ? ? ? ? 8D 85 ? FF FF FF 6A 00 6A 00 [FIRST]
+cmp [eax+10],00
+pop eax
+jle Original
+mov [esi+000150B8],#42120003
+mov [esi+000150B8+4],#55
+
+Original:
+cmp dword ptr [esi+000150B8],00
+jmp Return
+
+022B1E5E: //83 BE ? ? ? ? 00 0F 84 ? ? 00 00 2B 86 ? ? ? ? 0F 88 ? ? 00 00 8B
+jmp Hook
+db 90 90
+Return:
+
+0228C224: // 7C ? 8D ? ? ? ? ? E8 ? ? ? ? 85 ? 8b ? ? 74 ?
+db 90 90
+
+[DISABLE]
+022B1E5E:
+cmp dword ptr [esi+000150B8],00
+
+0228C224:
+db 7C 1E
+
+dealloc(Hook)
