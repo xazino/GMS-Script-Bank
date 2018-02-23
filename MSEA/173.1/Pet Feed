@@ -1,0 +1,61 @@
+/*
+MSEA v173.1 Auto Key
+Double-Click on YOUR Character and open up the info screen.
+Keep it open for this to work
+*/
+[enable]
+define(VK_CONTROL,001D0000)
+define(VK_RSHIFT,002A0000)
+define(VK_INSERT,01520000)
+define(VK_DELETE,01530000)
+define(VK_HOME,01470000)
+define(VK_END,014F0000)
+define(VK_PRIOR,01490000) //PageUp
+define(VK_NEXT,01510000) //PageDown
+define(VK_Z,002C0000)
+
+define(FullnessLimit,#70) //Define when feed should be triggered
+alloc(CheckFeed,256)
+alloc(PressKey,128)
+label(Return)
+label(End)
+
+CheckFeed:
+cmp dl,FullnessLimit
+jg End
+pushad
+mov edx,VK_PRIOR //Define FeedKey Here
+call PressKey
+popad
+
+End:
+mov [esi+0C],dl //Original Opcode
+call 0204C400 //Original Opcode
+jmp Return
+
+01FC3ED1:
+jmp CheckFeed
+db 90 90 90
+Return:
+
+PressKey:
+mov esi,[02EE6258] // TSingletonCWvsContext
+/*
+Mem Search Addy 55 8B EC 56 8B F1 E8 ? ? F7 FF F6 45 08 01 74 0E 68 ? ? 00 00 56 E8 ? ? ? 00 83 C4 08 8B C6 5E 5D C2 0400
+Mem Search Result Addy
+4 Byte Scan Result Addy. Green Result
+*/
+mov ecx,[esi+A4]
+push edx
+push 00
+call 023A73C0 // CWndMan::OnKey 55 8B EC 8B 0D ?? ?? ?? ?? 85 C9 74 ?? 83 C1 ?? [First]
+ret
+
+[disable]
+01FC3ED1: // Addy that accesses Pet Fullness Addy
+mov [esi+0C],dl
+call 0204C400
+
+dealloc(CheckFeed)
+dealloc(PressKey)
+dealloc(FullnessLimit)
