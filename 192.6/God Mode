@@ -1,0 +1,7 @@
+[ENABLE]
+02184310: //CUserLocal::SetDamaged
+db C2 2C 00
+
+[DISABLE]
+02184310:
+db 55 8B EC
