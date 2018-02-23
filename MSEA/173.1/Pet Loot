@@ -1,0 +1,69 @@
+/*
+
+Creator Sprux
+*/
+
+
+[enable]
+label(pet_teleport_restore)
+registersymbol(pet_teleport_restore)
+
+alloc(pet_teleport_hook,128)
+label(pet_teleport_return)
+
+label(return_normal)
+
+aobscan(pet_teleport_aob,FF 70 04 FF 30 8D ? ? 50 FF 15 ? ? ? ? 85 C0 0F 84 ? ? FF FF 83)
+aobscan(vecctrl_set_position_address,C7 ? ? ? 00 00 00 00 00 00 C3 CC CC CC CC CC 55 8B EC 8B ? 10) //55 8B EC ? ? 10 ? FF ? 10 8D ? 10 FF ? 0C 56 FF 50 40 85 C0 79 0C 68 ? ? ? ? ? ? E8 ? ? ? ?  5E FIRST
+
+alloc(delay,4)
+delay:
+dw 0
+
+
+pet_teleport_aob:
+pet_teleport_restore:
+jmp pet_teleport_hook
+pet_teleport_return:
+
+
+pet_teleport_hook:
+inc [delay]
+cmp dword ptr [delay], #70
+jne return_normal
+mov [delay], 0
+
+push esi
+mov esi,eax
+push [eax+04]
+push [eax]
+pushad
+
+mov edi,[ebp+08]
+lea ecx,[edi+04]
+mov ebx,[edi+04]
+mov ebx,[ebx+20]
+call ebx
+
+push [esi+04]
+push [esi]
+push 00
+mov ecx,eax
+call vecctrl_set_position_address+10
+
+popad
+pop esi
+jmp pet_teleport_return
+
+return_normal:
+push [eax+04]
+push [eax]
+jmp pet_teleport_return
+
+[disable]
+pet_teleport_restore:
+push [eax+04]
+push [eax]
+
+unregistersymbol(pet_teleport_restore)
+dealloc(pet_teleport_hook)
