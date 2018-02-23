@@ -1,0 +1,20 @@
+/*
+  Perfect Stance
+  Created by AIRRIDE
+*/
+
+[ENABLE]
+02186A09: //  85 F6 75 05 39 ? 10 74
+xor esi,esi
+nop
+nop
+
+02186A10: //  address of JE below
+db EB
+
+[Disable]
+02186A09:
+db 85 F6 75 05
+
+02186A10:
+db 74
