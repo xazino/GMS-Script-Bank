@@ -1,0 +1,22 @@
+[ENABLE]
+alloc(hook,128)
+label(return)
+
+hook:
+mov [esp+4],#9
+push ebp
+mov ebp,esp
+push -01
+jmp return
+
+013FB6E0: //  81 ? EB 20 42 01 74 ? 81 ? 02 1D 42 01 74 [FUNCTION START]  013FB6E0
+jmp hook
+return:
+
+[DISABLE]
+dealloc(hook)
+
+013FB6E0:
+push ebp
+mov ebp,esp
+push -01
