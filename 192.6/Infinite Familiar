@@ -1,0 +1,8 @@
+define(Address, 01040C30) //Function start push ebp: 88 13 00 00 3B C8 77
+[Enable]
+Address:
+ret
+
+[Disable]
+Address:
+push ebp
