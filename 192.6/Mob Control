@@ -1,0 +1,27 @@
+// 00 Doesn't seem to do anything but Disconnect to world selection screen
+// 01 Normal Mobs
+// 02 Jump mob
+// 03 Fly Mobs
+// 04 Stationary Mobs
+// 05 Mob Walk Right
+// 06-07-08 Lemmings
+// 09 and above crash MapleStory with "error code: -2147467259 (Unspecified error)"
+
+[ENABLE]
+alloc(MobControl,128)
+
+0239937E:
+jmp MobControl
+db 90
+
+MobControl:
+mov [edi+000004A8],%arg1
+mov eax,[edi+000004A8]
+jmp 0239937E+6
+
+
+[DISABLE]
+0239937E: // CVecCtrlMob::WorkUpdateActive: E9 ? ? ? ? 8B ? ? ? 00 00 83 ? ? 0F ? ? ? ? ? FF [Address below]
+mov eax,[edi+000004A8]
+
+dealloc(MobControl)
