@@ -1,0 +1,7 @@
+[ENABLE]
+010815C6:
+mov eax,1
+
+[DISABLE]
+010815C6: // E8 ? ? ? ? 50 E8 ? ? ? ? 83 C4 04 C3 CC [FIRST] [CALL BELOW]
+mov eax,0 // not original but w.e
