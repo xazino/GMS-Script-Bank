@@ -1,0 +1,84 @@
+[enable]
+define(VK_CONTROL,001D0000)
+define(VK_RSHIFT,002A0000)
+define(VK_INSERT,01520000)
+define(VK_DELETE,01530000)
+define(VK_HOME,01470000)
+define(VK_END,014F0000)
+define(VK_PRIOR,01490000) //PageUp
+define(VK_NEXT,01510000) //PageDown
+define(VK_Z,002C0000)
+
+alloc(HP,4)
+alloc(MP,4)
+alloc(CheckHP,128)
+alloc(CheckMP,128)
+alloc(PressKey,128)
+label(HPReturn)
+label(MPReturn)
+
+HP:
+dd #12000 //Define HP Trigger Here
+
+MP:
+dd #50 //Define MP Trigger Here
+
+CheckHP:
+mov [ebx+000001FC],esi
+cmp esi,[HP]
+jg HPReturn
+pushad
+mov edx,VK_CONTROL //Define HPKey Here
+call PressKey
+popad
+jmp HPReturn
+
+CheckMP:
+mov [edi+000001FC],ebx
+cmp ebx,[MP]
+jg MPReturn
+pushad
+mov edx,VK_RSHIFT //Define MPKey Here
+call PressKey
+popad
+jmp MPReturn
+
+
+01EBAC05:
+jmp CheckHP
+db 90
+HPReturn:
+
+01EBB207:
+jmp CheckMP
+db 90
+MPReturn:
+
+PressKey:
+mov esi,[02EE6258] // TSingletonCWvsContext
+/*
+Mem Search Addy 55 8B EC 56 8B F1 E8 ? ? F7 FF F6 45 08 01 74 0E 68 ? ? 00 00 56 E8 ? ? ? 00 83 C4 08 8B C6 5E 5D C2 0400
+Mem Search Result Addy
+4 Byte Scan Result Addy. Green Result
+*/
+mov ecx,[esi+A4]
+push edx
+push 00
+call 023A73C0 // CWndMan::OnKey 55 8B EC 8B 0D ?? ?? ?? ?? 85 C9 74 ?? 83 C1 ?? [First]
+ret
+
+
+[disable]
+01EBAC05: // Addy that accesses UI HP Value
+mov [ebx+000001FC],esi
+
+01EBB207: // Addy that accesses UI MP Value
+mov [edi+000001FC],ebx
+
+dealloc(HP)
+dealloc(MP)
+dealloc(CheckHP)
+dealloc(CheckMP)
+dealloc(UseHP)
+dealloc(UseMP)
+dealloc(PressKey)
