@@ -2,8 +2,8 @@
 define(UnlimitedAttack, 02265261) // 1st jle from int CAntiRepeat::TryRepeat(long,long)
 [Enable]
 UnlimitedAttack:
-db %input1 //EB
+db EB
 
 [Disable]
 UnlimitedAttack:
-db %input2 //7E
+db 7E
