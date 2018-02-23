@@ -1,0 +1,7 @@
+[ENABLE]
+0234E4E2: //Mob Confuse
+db 90 90 90 90 90 90
+
+[DISABLE]
+0234E4E2: //0F 82 ? ? 00 00 EB 03 ? ? ? F2 [second]
+db 0F 82 50 08 00 00
