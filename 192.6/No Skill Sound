@@ -1,0 +1,8 @@
+define(NoSkillSounds, 0230A440) //  68 6A F8 06 06 E8 follow call below
+[ENABLE]
+NoSkillSounds:
+ret
+
+[DISABLE]
+NoSkillSounds:
+push ebp
