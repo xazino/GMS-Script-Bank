@@ -1,0 +1,8 @@
+define(HideNameTags,020C2A30) //6A 00 6A 00 68 F3 03 [FUNCTION START]
+[ENABLE]
+HideNameTags: //CUser:DrawNameTags
+ret
+
+[DISABLE]
+HideNameTags:
+push ebp
