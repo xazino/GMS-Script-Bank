@@ -1,0 +1,25 @@
+[ENABLE]
+023370A0: // CWvsContext::SetExclRequestSent
+db C2 04 00
+
+00D964BC: // Remove loot animation
+db 0F 8C
+
+00FBE618: // No item floating
+db F2 0F 59
+
+00FCA7EF: // Instant Drop
+db F2 0F 5E
+
+[DISABLE]
+023370A0: // 8D 8E ? ? 00 00 E8 ? ? ? ? E8 ? ? ? ? 50 [Start]
+db 55 8B EC
+
+00D964BC: // 81 ? BC 02 [Second result & address below]
+db 0F 8D
+
+00FBE618: // F2 ? ? ? ? ? ? ? F2 ? ? ? ? ? ? ? F2 ? ? ? ? ? ? ? F2 ? ? ? ? ? ? ? E8 [Second result]
+db F2 0F 5E
+
+00FCA7EF: // F2 ? ? ? ? ? ? ? 3B ? 7F
+db F2 0F 59
