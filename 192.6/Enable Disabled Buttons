@@ -1,0 +1,8 @@
+[ENABLE]
+//E8 ? ? ? ? 5E 5D C2 04 00 CC 8B ? ? C3
+EnableDisabledButtons:
+db 8B 41 34
+
+[DISABLE]
+EnableDisabledButtons:
+db 8B 41 30
