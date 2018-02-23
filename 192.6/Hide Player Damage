@@ -1,0 +1,15 @@
+/*
+  Remove Damage Counters, Relief Lag
+*/
+//CAnimationDisplayer::Effect_HP
+define(NoDamageShown,00D94EC0) //03 85 ? ? ? ? 8D 85 ? ? ? ? 50 E8 ? ? ? ? BB 01 00 00 00 EB ? C7 85 ? ? ? ? 00 00 00 00 8D 85 ? ? ? ? BB 02 00 00 00 8B ? ? 89 ? ? ? ? ? 85 F6 [FUNCTION START]
+
+[enable]
+NoDamageShown:
+retn 0034
+
+[disable]
+NoDamageShown:
+push ebp
+mov ebp,esp
+push -01
