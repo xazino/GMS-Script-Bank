@@ -1,0 +1,9 @@
+[ENABLE]
+//CFlameBallAttack::UpdateFlameBallAttack
+01254656:
+ret 10
+
+[DISABLE]
+01254656: // 3D 5A BB C4 04 75 ?
+push ebp
+mov ebp,esp
