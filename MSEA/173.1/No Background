@@ -1,0 +1,9 @@
+define(RemoveBackground, 0134F17E) //  FF 50 ? 8B CE E8 ? ? ? ? 8B CE E8 ? ? ? ? 6A 00
+
+[Enable]
+RemoveBackground:
+db 90 90 90
+
+[Disable]
+RemoveBackground:
+call dword ptr [eax+18]
