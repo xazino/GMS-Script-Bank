@@ -18,10 +18,10 @@ label(HPReturn)
 label(MPReturn)
 
 HP:
-dd #12000 //Define HP Trigger Here
+dd #%arg1 //Define HP Trigger Here
 
 MP:
-dd #50 //Define MP Trigger Here
+dd #%arg2 //Define MP Trigger Here
 
 CheckHP:
 mov [ebx+000001FC],esi
