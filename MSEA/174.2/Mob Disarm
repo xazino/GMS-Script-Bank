@@ -1,0 +1,9 @@
+[ENABLE]
+0147C036: // 75 15 8B CF E8 ? ? ? ? 8B CF E8 ? ? ? ? 8B CF E8 ? ? ? ? 8B CF
+jmp 0147C760 // 8B 87 ? ? ? ? 85 C0 0F 84 ? ? ? ? 2B C3
+db 90 90 90 90
+
+[DISABLE]
+0147C036:
+db 75 15 8B CF
+call 0149F490
