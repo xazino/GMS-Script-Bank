@@ -23,7 +23,7 @@ skill_id_return:
 
 skill_id_hook:
 inc [delay]
-cmp [delay],#5
+cmp [delay],#%arg2
 jne normal
 mov [delay],01
 mov [esi+00013698],skill_id
