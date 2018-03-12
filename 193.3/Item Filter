@@ -1,0 +1,87 @@
+[ENABLE]
+alloc(ItemFilter,256)
+alloc(ItemList,2048)
+alloc(Mesos,4)
+alloc(Mode,4)
+label(Return)
+label(End)
+label(FilterMesos)
+label(RejectOrAccept)
+label(AcceptFilter)
+label(RejectFilter)
+label(Ignore)
+
+Mesos:
+dd #%arg1 // Minimum meso
+
+Mode:
+dd #%arg2 // 0 = Accept, 1 = reject
+
+ItemList:
+//Credit TymeGyzmo for list
+
+//Add filter like below
+//dd #itemID
+
+%arg3
+
+dd 00 // End of list
+
+ItemFilter:
+push edx
+mov edx,[Mesos]
+cmp eax,edx
+jle FilterMesos
+mov edx,ItemList
+jmp RejectOrAccept
+
+FilterMesos:
+mov [ebx+48],0
+jmp End
+
+RejectOrAccept:
+cmp byte ptr [Mode],0
+je AcceptFilter
+cmp byte ptr [Mode],1
+je RejectFilter
+
+AcceptFilter:
+cmp eax,[edx](Mesos)
+je End
+cmp dword ptr [edx],0
+je Ignore
+add edx,4
+jmp AcceptFilter
+
+RejectFilter:
+cmp eax,[edx]
+je Ignore
+cmp dword ptr [edx],0
+je End
+add edx,4
+jmp RejectFilter
+
+Ignore:
+cmp eax,#50000 // Added this code otherwise mesos is dropped but not shown in accept mode
+jle End
+mov eax,0
+
+End:
+pop edx
+mov ecx,esi // Original Opcode
+mov [ebx+48],eax // Original Opcode
+jmp Return
+
+0108EDDF:
+jmp ItemFilter
+Return:
+
+[DISABLE]
+0108EDDF: // f3 ? ? ? ? ? ? ? f3 ? ? ? ? ? ? ? e8 ? ? ? ? 8b ? 89 ? ? e8 below
+mov ecx,esi
+mov [ebx+48],eax
+
+dealloc(ItemFilter)
+dealloc(ItemList)
+dealloc(Mesos)
+dealloc(Mode)
