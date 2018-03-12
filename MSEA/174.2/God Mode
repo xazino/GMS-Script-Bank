@@ -1,0 +1,7 @@
+[ENABLE]
+022380D0: // CUserLocal::SetDamaged
+db C2 2C 00
+
+[DISABLE]
+022380D0: // 05 0E010000 50 56 E8 [Follow Call Beneath]
+db 55 8B EC
