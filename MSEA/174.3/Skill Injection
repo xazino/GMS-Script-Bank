@@ -1,0 +1,65 @@
+//override
+[ENABLE]
+alloc(skill_id_hook,128)
+label(skill_id_return)
+label(normal)
+define(skill_id,#%arg1) //Change #00000000 to your skillID
+
+alloc(delay,8)
+
+delay:
+dw 00
+
+023496F5: //[1st addy]
+db 90 90 90 90 90 90
+
+02349701: //[2nd addy]
+db 90 90 90 90 90 90
+
+023496EE: //[3rd addy]
+jmp skill_id_hook
+nop
+nop
+skill_id_return:
+
+skill_id_hook:
+inc [delay]
+cmp [delay],#%arg2
+jne normal
+mov [delay],01
+mov [esi+00013698],skill_id
+jmp skill_id_return
+normal:
+cmp dword ptr [esi+00013698],00
+jmp skill_id_return
+
+02349774: //[4th addy]
+db 90 E9
+
+023498ED: //[5th addy]
+db 90 90 90 90 90 90
+
+023498FA: //[6th addy]
+jmp 0234992D //[7th addy] 81 BE ? ? ? ? E2 FE 7E 01 8B CE 75 ? 6A 00 6A 00 6A 04 57 FF ? ? E8 ? ? ? ? 5F C7 ? ? ? ? ? 00 00 00 00 5E ?
+dw 9090
+
+[Disable]
+023496F5: //[1st addy] 0F 84 ? ? ? ? 2B 9E ? ? ? ? 0F 88 ? ? ? ? 8B 0D ? ? ? ? 85 C9 74 ? 8B ? ? 83 ? ? 68 ? ? ? ? FF 50
+db 0F 84 1F 03 00 00
+
+02349701: //[2nd addy] JS Below first addy^
+db 0F 88 13 03 00 00
+
+023496EE: //[3rd addy] cmp dword ptr above first addy^^
+cmp dword ptr [esi+00013698],00
+
+02349774: //[4th addy] 0F 84 ? ? ? ? 8B 06 8B CE FF 50 ? 3D 10 27 00 00 74 ? 3D 74 27 00 00 74 ? 3D 7E 27 00 00 74 ? 3D 7F 27 00 00 74 ?
+db 0F 84 F8 00 00 00
+
+023498ED: //[5th addy] 0F 87 ? ? ? ? 0F B6 ? ? ? ? ? FF 24 ? ? ? ? ? 84 DB 74 ? 8B 8E ? ? ? ? 85 C9 0F 84 ? ? ? ? 57 FF ? ? E8 ? ? ? ? 5F
+db 0F 87 1D 01 00 00
+
+023498FA: //[6th addy] jmp dword ptr below the 5th addy ^
+jmp dword ptr [ecx*4+02349A24] //update the addy in the brackets here as well
+
+dealloc(skill_id_hook)
