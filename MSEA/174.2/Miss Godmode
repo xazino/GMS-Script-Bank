@@ -1,0 +1,34 @@
+[ENABLE]
+alloc(CUserLocal__SetDamaged_Hook,128)
+label(CUserLocal__SetDamaged_Normal)
+label(return)
+
+CUserLocal__SetDamaged_Hook:
+push 00
+push 00
+push 00
+push 00
+push 00
+push 00
+push 00
+push 00
+push 00
+push 00
+push 00
+xor edx,edx
+call CUserLocal__SetDamaged_Normal
+ret 002C
+
+CUserLocal__SetDamaged_Normal:
+push ebp
+mov ebp,esp
+push -01
+jmp return
+
+022380D0: // CUserLocal::SetDamaged
+jmp CUserLocal__SetDamaged_Hook
+return:
+
+[DISABLE]
+022380D0: //05 0E010000 50 56 E8 [Follow Call Beneath]
+db 55 8B EC 6A FF
