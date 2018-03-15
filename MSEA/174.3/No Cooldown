@@ -1,0 +1,10 @@
+define(IgnoreSkillCooldowns,022BEB40)
+
+[enable]
+IgnoreSkillCooldowns: //Ignore Skill Cooldown (Some Skills)
+ret 04
+
+[disable]
+IgnoreSkillCooldowns: //55 8B EC 83 EC 18 53 56 57 89 4D ? ? ? ? ? ? 50 ? ? ? [Third Result]
+push ebp
+mov ebp,esp
